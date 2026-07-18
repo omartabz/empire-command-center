@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VendorsRouteImport } from './routes/vendors'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as FraudRouteImport } from './routes/fraud'
+import { Route as DeliveryRouteImport } from './routes/delivery'
 import { Route as IndexRouteImport } from './routes/index'
 
+const VendorsRoute = VendorsRouteImport.update({
+  id: '/vendors',
+  path: '/vendors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FraudRoute = FraudRouteImport.update({
+  id: '/fraud',
+  path: '/fraud',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeliveryRoute = DeliveryRouteImport.update({
+  id: '/delivery',
+  path: '/delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,72 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/delivery': typeof DeliveryRoute
+  '/fraud': typeof FraudRoute
+  '/support': typeof SupportRoute
+  '/vendors': typeof VendorsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/delivery': typeof DeliveryRoute
+  '/fraud': typeof FraudRoute
+  '/support': typeof SupportRoute
+  '/vendors': typeof VendorsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/delivery': typeof DeliveryRoute
+  '/fraud': typeof FraudRoute
+  '/support': typeof SupportRoute
+  '/vendors': typeof VendorsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/delivery' | '/fraud' | '/support' | '/vendors'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/delivery' | '/fraud' | '/support' | '/vendors'
+  id: '__root__' | '/' | '/delivery' | '/fraud' | '/support' | '/vendors'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DeliveryRoute: typeof DeliveryRoute
+  FraudRoute: typeof FraudRoute
+  SupportRoute: typeof SupportRoute
+  VendorsRoute: typeof VendorsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vendors': {
+      id: '/vendors'
+      path: '/vendors'
+      fullPath: '/vendors'
+      preLoaderRoute: typeof VendorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fraud': {
+      id: '/fraud'
+      path: '/fraud'
+      fullPath: '/fraud'
+      preLoaderRoute: typeof FraudRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delivery': {
+      id: '/delivery'
+      path: '/delivery'
+      fullPath: '/delivery'
+      preLoaderRoute: typeof DeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +121,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DeliveryRoute: DeliveryRoute,
+  FraudRoute: FraudRoute,
+  SupportRoute: SupportRoute,
+  VendorsRoute: VendorsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
