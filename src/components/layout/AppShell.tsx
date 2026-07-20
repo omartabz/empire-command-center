@@ -12,7 +12,6 @@ const NAV = [
   { to: "/delivery", label: "Delivery Report", icon: Table2 },
   { to: "/vendors", label: "Vendor Matrix", icon: Users },
   { to: "/fraud", label: "AI Fraud Detection", icon: ShieldAlert },
-  { to: "/support", label: "Customer Portal", icon: LifeBuoy },
 ];
 
 export function AppShell({ children, title, subtitle }: { children: ReactNode; title: string; subtitle?: string }) {
