@@ -105,25 +105,72 @@ function CommandCenter() {
             <Badge variant="outline" className="text-xs">Key Tickets</Badge>
           </div>
           <div className="space-y-3 max-h-[260px] overflow-auto pr-1">
-            {escalation.map((t) => (
-              <div key={t.id} className="rounded-md border border-border/70 bg-[var(--panel-elevated)]/60 p-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-primary">{t.id}</span>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
+            {escalation.map((t) => {
+              const list = comments[t.id] ?? [];
+              return (
+                <div key={t.id} className="rounded-md border border-border/70 bg-[var(--panel-elevated)]/60 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-primary">{t.id}</span>
+                    <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{t.description}</p>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    <Badge variant="outline" className="text-[10px]">ENG-1045: Integration Sync Fix</Badge>
+                  </div>
+                  {list.length > 0 && (
+                    <ul className="mt-2 space-y-1.5 border-t border-border/50 pt-2">
+                      {list.map((c, i) => (
+                        <li key={i} className="text-xs">
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
+                            <MessageSquare className="w-3 h-3" />
+                            <span className="font-medium text-foreground">{c.author}</span>
+                            <span>· {c.at}</span>
+                          </div>
+                          <p className="text-foreground/90 mt-0.5 whitespace-pre-wrap">{c.text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <button
+                    onClick={() => openFor(t.id)}
+                    className="mt-2 inline-flex items-center gap-1 text-xs text-primary hover:underline"
+                  >
+                    <MessageSquarePlus className="w-3.5 h-3.5" /> Add comment
+                  </button>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{t.description}</p>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  <Badge variant="outline" className="text-[10px]">ENG-1045: Integration Sync Fix</Badge>
-                </div>
-              </div>
-            ))}
+              );
+            })}
             {escalation.length === 0 && <p className="text-sm text-muted-foreground">No escalations.</p>}
           </div>
-          <button className="mt-3 w-full flex items-center justify-center gap-2 text-sm text-primary hover:underline">
+          <button
+            onClick={() => openFor(escalation[0]?.id ?? null)}
+            className="mt-3 w-full flex items-center justify-center gap-2 text-sm text-primary hover:underline disabled:opacity-50"
+            disabled={escalation.length === 0}
+          >
             <MessageSquarePlus className="w-4 h-4" /> Add comment…
           </button>
         </Card>
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add comment{activeTicket ? ` — ${activeTicket}` : ""}</DialogTitle>
+            <DialogDescription>Your comment will be attached to this escalation ticket.</DialogDescription>
+          </DialogHeader>
+          <Textarea
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder="Write a comment about this ticket…"
+            rows={5}
+            autoFocus
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={submitComment}>Post comment</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Critical tickets + Knowledge base */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-4">
