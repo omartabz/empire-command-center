@@ -40,7 +40,7 @@ function CommandCenter() {
               <YAxis stroke="var(--muted-foreground)" fontSize={11} />
               <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 8 }} />
               <Bar dataKey="frustrated" stackId="a" fill="var(--neon-red)" />
-              <Bar dataKey="negative" stackId="a" fill="var(--neon-blue)" />
+              <Bar dataKey="negative" stackId="a" fill="var(--neon-amber)" />
               <Bar dataKey="neutral" stackId="a" fill="var(--neon-green)" />
             </BarChart>
           </ResponsiveContainer>
