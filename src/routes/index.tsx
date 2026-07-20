@@ -1,9 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { useEmpire } from "@/store/empire";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, AlertTriangle, Ticket as TicketIcon, ArrowUpRight, MessageSquarePlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { TrendingUp, TrendingDown, AlertTriangle, Ticket as TicketIcon, ArrowUpRight, MessageSquarePlus, MessageSquare } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, ScatterChart, Scatter, ZAxis, CartesianGrid, Legend } from "recharts";
 import { cn } from "@/lib/utils";
 
@@ -12,9 +19,37 @@ export const Route = createFileRoute("/")({
   component: CommandCenter,
 });
 
+type CommentMap = Record<string, { author: string; text: string; at: string }[]>;
+
 function CommandCenter() {
   const { kpis, ticketVolume, sentimentScatter, tickets, alerts } = useEmpire();
   const critical = tickets.filter((t) => t.status !== "Resolved").slice(0, 5);
+  const [comments, setComments] = useState<CommentMap>({});
+  const [open, setOpen] = useState(false);
+  const [activeTicket, setActiveTicket] = useState<string | null>(null);
+  const [draft, setDraft] = useState("");
+
+  const openFor = (id: string | null) => {
+    setActiveTicket(id);
+    setDraft("");
+    setOpen(true);
+  };
+
+  const submitComment = () => {
+    const text = draft.trim();
+    if (!text) { toast.error("Comment cannot be empty"); return; }
+    if (!activeTicket) { toast.error("Select a ticket first"); return; }
+    setComments((prev) => ({
+      ...prev,
+      [activeTicket]: [
+        ...(prev[activeTicket] ?? []),
+        { author: "You", text, at: new Date().toLocaleString() },
+      ],
+    }));
+    toast.success(`Comment added to ${activeTicket}`);
+    setDraft("");
+    setOpen(false);
+  };
   const escalation = tickets.filter((t) => t.status === "Escalated" || t.priority === "Emergency").slice(0, 4);
 
   return (
