@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Table2, Users, ShieldAlert, Radar, LifeBuoy, Search, Bell, Settings, HelpCircle, LogOut } from "lucide-react";
+import { LayoutDashboard, Table2, Users, ShieldAlert, Radar, Search, Bell, Settings, HelpCircle, LogOut } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useEmpire } from "@/store/empire";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -12,7 +12,6 @@ const NAV = [
   { to: "/delivery", label: "Delivery Report", icon: Table2 },
   { to: "/vendors", label: "Vendor Matrix", icon: Users },
   { to: "/fraud", label: "AI Fraud Detection", icon: ShieldAlert },
-  { to: "/support", label: "Customer Portal", icon: LifeBuoy },
 ];
 
 export function AppShell({ children, title, subtitle }: { children: ReactNode; title: string; subtitle?: string }) {

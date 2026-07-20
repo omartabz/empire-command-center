@@ -46,7 +46,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Empire — Operations Command Platform" },
-      { name: "description", content: "Empire Logistics unified command platform: delivery performance, service-level operations, supplier ratings, AI fraud detection, and customer support." },
+      { name: "description", content: "Empire Logistics unified command platform: delivery performance, service-level operations, supplier ratings, and AI fraud detection." },
       { property: "og:title", content: "Empire — Operations Command Platform" },
       { property: "og:description", content: "Unified project management, analytics and AI alerts for Empire Logistics." },
       { property: "og:type", content: "website" },
