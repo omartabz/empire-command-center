@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Table2, Users, ShieldAlert, Radar, LifeBuoy, Search, Bell, Settings, HelpCircle, LogOut } from "lucide-react";
+import { LayoutDashboard, Table2, Users, ShieldAlert, Radar, Search, Bell, Settings, HelpCircle, LogOut } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useEmpire } from "@/store/empire";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
