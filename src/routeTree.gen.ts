@@ -12,7 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendorsRouteImport } from './routes/vendors'
 import { Route as FraudRouteImport } from './routes/fraud'
 import { Route as DeliveryRouteImport } from './routes/delivery'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedPortalRouteRouteImport } from './routes/_authenticated/portal/route'
+import { Route as AuthenticatedPortalIndexRouteImport } from './routes/_authenticated/portal/index'
+import { Route as AuthenticatedPortalTicketsRouteImport } from './routes/_authenticated/portal/tickets'
+import { Route as AuthenticatedPortalSupportRouteImport } from './routes/_authenticated/portal/support'
+import { Route as AuthenticatedPortalDeliveriesRouteImport } from './routes/_authenticated/portal/deliveries'
+import { Route as AuthenticatedPortalContactRouteImport } from './routes/_authenticated/portal/contact'
+import { Route as AuthenticatedPortalAnnouncementsRouteImport } from './routes/_authenticated/portal/announcements'
 
 const VendorsRoute = VendorsRouteImport.update({
   id: '/vendors',
@@ -29,41 +38,155 @@ const DeliveryRoute = DeliveryRouteImport.update({
   path: '/delivery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPortalRouteRoute =
+  AuthenticatedPortalRouteRouteImport.update({
+    id: '/portal',
+    path: '/portal',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPortalIndexRoute =
+  AuthenticatedPortalIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalTicketsRoute =
+  AuthenticatedPortalTicketsRouteImport.update({
+    id: '/tickets',
+    path: '/tickets',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalSupportRoute =
+  AuthenticatedPortalSupportRouteImport.update({
+    id: '/support',
+    path: '/support',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalDeliveriesRoute =
+  AuthenticatedPortalDeliveriesRouteImport.update({
+    id: '/deliveries',
+    path: '/deliveries',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalContactRoute =
+  AuthenticatedPortalContactRouteImport.update({
+    id: '/contact',
+    path: '/contact',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
+const AuthenticatedPortalAnnouncementsRoute =
+  AuthenticatedPortalAnnouncementsRouteImport.update({
+    id: '/announcements',
+    path: '/announcements',
+    getParentRoute: () => AuthenticatedPortalRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/delivery': typeof DeliveryRoute
   '/fraud': typeof FraudRoute
   '/vendors': typeof VendorsRoute
+  '/portal': typeof AuthenticatedPortalRouteRouteWithChildren
+  '/portal/announcements': typeof AuthenticatedPortalAnnouncementsRoute
+  '/portal/contact': typeof AuthenticatedPortalContactRoute
+  '/portal/deliveries': typeof AuthenticatedPortalDeliveriesRoute
+  '/portal/support': typeof AuthenticatedPortalSupportRoute
+  '/portal/tickets': typeof AuthenticatedPortalTicketsRoute
+  '/portal/': typeof AuthenticatedPortalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/delivery': typeof DeliveryRoute
   '/fraud': typeof FraudRoute
   '/vendors': typeof VendorsRoute
+  '/portal/announcements': typeof AuthenticatedPortalAnnouncementsRoute
+  '/portal/contact': typeof AuthenticatedPortalContactRoute
+  '/portal/deliveries': typeof AuthenticatedPortalDeliveriesRoute
+  '/portal/support': typeof AuthenticatedPortalSupportRoute
+  '/portal/tickets': typeof AuthenticatedPortalTicketsRoute
+  '/portal': typeof AuthenticatedPortalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/delivery': typeof DeliveryRoute
   '/fraud': typeof FraudRoute
   '/vendors': typeof VendorsRoute
+  '/_authenticated/portal': typeof AuthenticatedPortalRouteRouteWithChildren
+  '/_authenticated/portal/announcements': typeof AuthenticatedPortalAnnouncementsRoute
+  '/_authenticated/portal/contact': typeof AuthenticatedPortalContactRoute
+  '/_authenticated/portal/deliveries': typeof AuthenticatedPortalDeliveriesRoute
+  '/_authenticated/portal/support': typeof AuthenticatedPortalSupportRoute
+  '/_authenticated/portal/tickets': typeof AuthenticatedPortalTicketsRoute
+  '/_authenticated/portal/': typeof AuthenticatedPortalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/delivery' | '/fraud' | '/vendors'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/delivery'
+    | '/fraud'
+    | '/vendors'
+    | '/portal'
+    | '/portal/announcements'
+    | '/portal/contact'
+    | '/portal/deliveries'
+    | '/portal/support'
+    | '/portal/tickets'
+    | '/portal/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/delivery' | '/fraud' | '/vendors'
-  id: '__root__' | '/' | '/delivery' | '/fraud' | '/vendors'
+  to:
+    | '/'
+    | '/auth'
+    | '/delivery'
+    | '/fraud'
+    | '/vendors'
+    | '/portal/announcements'
+    | '/portal/contact'
+    | '/portal/deliveries'
+    | '/portal/support'
+    | '/portal/tickets'
+    | '/portal'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/delivery'
+    | '/fraud'
+    | '/vendors'
+    | '/_authenticated/portal'
+    | '/_authenticated/portal/announcements'
+    | '/_authenticated/portal/contact'
+    | '/_authenticated/portal/deliveries'
+    | '/_authenticated/portal/support'
+    | '/_authenticated/portal/tickets'
+    | '/_authenticated/portal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   DeliveryRoute: typeof DeliveryRoute
   FraudRoute: typeof FraudRoute
   VendorsRoute: typeof VendorsRoute
@@ -92,6 +215,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeliveryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -99,11 +236,98 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/portal': {
+      id: '/_authenticated/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof AuthenticatedPortalRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portal/': {
+      id: '/_authenticated/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof AuthenticatedPortalIndexRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/tickets': {
+      id: '/_authenticated/portal/tickets'
+      path: '/tickets'
+      fullPath: '/portal/tickets'
+      preLoaderRoute: typeof AuthenticatedPortalTicketsRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/support': {
+      id: '/_authenticated/portal/support'
+      path: '/support'
+      fullPath: '/portal/support'
+      preLoaderRoute: typeof AuthenticatedPortalSupportRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/deliveries': {
+      id: '/_authenticated/portal/deliveries'
+      path: '/deliveries'
+      fullPath: '/portal/deliveries'
+      preLoaderRoute: typeof AuthenticatedPortalDeliveriesRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/contact': {
+      id: '/_authenticated/portal/contact'
+      path: '/contact'
+      fullPath: '/portal/contact'
+      preLoaderRoute: typeof AuthenticatedPortalContactRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
+    '/_authenticated/portal/announcements': {
+      id: '/_authenticated/portal/announcements'
+      path: '/announcements'
+      fullPath: '/portal/announcements'
+      preLoaderRoute: typeof AuthenticatedPortalAnnouncementsRouteImport
+      parentRoute: typeof AuthenticatedPortalRouteRoute
+    }
   }
 }
 
+interface AuthenticatedPortalRouteRouteChildren {
+  AuthenticatedPortalAnnouncementsRoute: typeof AuthenticatedPortalAnnouncementsRoute
+  AuthenticatedPortalContactRoute: typeof AuthenticatedPortalContactRoute
+  AuthenticatedPortalDeliveriesRoute: typeof AuthenticatedPortalDeliveriesRoute
+  AuthenticatedPortalSupportRoute: typeof AuthenticatedPortalSupportRoute
+  AuthenticatedPortalTicketsRoute: typeof AuthenticatedPortalTicketsRoute
+  AuthenticatedPortalIndexRoute: typeof AuthenticatedPortalIndexRoute
+}
+
+const AuthenticatedPortalRouteRouteChildren: AuthenticatedPortalRouteRouteChildren =
+  {
+    AuthenticatedPortalAnnouncementsRoute:
+      AuthenticatedPortalAnnouncementsRoute,
+    AuthenticatedPortalContactRoute: AuthenticatedPortalContactRoute,
+    AuthenticatedPortalDeliveriesRoute: AuthenticatedPortalDeliveriesRoute,
+    AuthenticatedPortalSupportRoute: AuthenticatedPortalSupportRoute,
+    AuthenticatedPortalTicketsRoute: AuthenticatedPortalTicketsRoute,
+    AuthenticatedPortalIndexRoute: AuthenticatedPortalIndexRoute,
+  }
+
+const AuthenticatedPortalRouteRouteWithChildren =
+  AuthenticatedPortalRouteRoute._addFileChildren(
+    AuthenticatedPortalRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPortalRouteRoute: typeof AuthenticatedPortalRouteRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPortalRouteRoute: AuthenticatedPortalRouteRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   DeliveryRoute: DeliveryRoute,
   FraudRoute: FraudRoute,
   VendorsRoute: VendorsRoute,
@@ -111,13 +335,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
